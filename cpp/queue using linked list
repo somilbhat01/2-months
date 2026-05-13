@@ -1,0 +1,87 @@
+#include <iostream>
+using namespace std;
+
+struct Node {
+    int data;
+    Node* next;
+    Node(int val) : data(val), next(nullptr) {}
+};
+
+class Queue {
+private:
+    Node* frontNode;
+    Node* backNode;
+    int count;
+    
+public:
+    Queue() : frontNode(nullptr), backNode(nullptr), count(0) {}
+    
+    ~Queue() {
+        Node* current = frontNode;
+        while (current != nullptr) {
+            Node* nextNode = current->next;
+            delete current;
+            current = nextNode;
+        }
+    }
+    
+    void enqueue(int value) {
+        Node* newNode = new Node(value);
+        
+        if (isEmpty()) {
+            frontNode = newNode;
+            backNode = newNode;
+        } else {
+            backNode->next = newNode;
+            backNode = newNode;
+        }
+        count++;
+    }
+    
+    void dequeue() {
+        if (isEmpty()) {
+            cout << "Error: Queue is empty! Cannot dequeue.\n";
+            return;
+        }
+        
+        Node* temp = frontNode;
+        frontNode = frontNode->next;
+        
+        if (frontNode == nullptr) {
+            backNode = nullptr;
+        }
+        
+        delete temp;
+        count--;
+    }
+    
+    int front() {
+        if (isEmpty()) {
+            cout << "Error: Queue is empty! No front element.\n";
+            return -1;
+        }
+        return frontNode->data;
+    }
+    
+    bool isEmpty() {
+        return count == 0;
+    }
+    
+    int size() {
+        return count;
+    }
+    
+    void display() {
+        if (isEmpty()) {
+            cout << "Queue is empty\n";
+            return;
+        }
+        cout << "Queue (front to back): ";
+        Node* current = frontNode;
+        while (current != nullptr) {
+            cout << current->data << " ";
+            current = current->next;
+        }
+        cout << endl;
+    }
+};
