@@ -16,15 +16,15 @@ class BinaryTree {
 private:
     TreeNode* root;
     
-    // ========== PRIVATE HELPERS (RECURSIVE) ==========
-    
-    // Destructor helper - post-order deletion
+    // ========== DESTRUCTOR HELPER (Post-order deletion) ==========
     void destroyTree(TreeNode* node) {
         if (node == nullptr) return;
         destroyTree(node->left);
         destroyTree(node->right);
         delete node;
     }
+    
+    // ========== TRAVERSAL HELPERS ==========
     
     // Inorder: Left → Root → Right
     void inorderHelper(TreeNode* node) {
@@ -50,7 +50,9 @@ private:
         cout << node->data << " ";
     }
     
-    // Height helper
+    // ========== PROPERTY HELPERS ==========
+    
+    // Height: Longest path from node to leaf
     int heightHelper(TreeNode* node) {
         if (node == nullptr) return -1;  // -1 for empty tree
         int leftHeight = heightHelper(node->left);
@@ -58,13 +60,13 @@ private:
         return 1 + max(leftHeight, rightHeight);
     }
     
-    // Count nodes helper
+    // Count total nodes
     int countNodesHelper(TreeNode* node) {
         if (node == nullptr) return 0;
         return 1 + countNodesHelper(node->left) + countNodesHelper(node->right);
     }
     
-    // Count leaves helper
+    // Count leaf nodes (nodes with no children)
     int countLeavesHelper(TreeNode* node) {
         if (node == nullptr) return 0;
         if (node->left == nullptr && node->right == nullptr) return 1;
@@ -131,7 +133,7 @@ public:
         return false;
     }
     
-    // ========== TRAVERSALS (PUBLIC WRAPPERS) ==========
+    // ========== TRAVERSALS (Public Wrappers) ==========
     
     void inorder() {
         inorderHelper(root);
@@ -166,7 +168,7 @@ public:
         cout << endl;
     }
     
-    // ========== PROPERTIES ==========
+    // ========== PROPERTIES (Public Wrappers) ==========
     
     int height() {
         return heightHelper(root);
